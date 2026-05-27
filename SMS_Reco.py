@@ -23,25 +23,28 @@ st.markdown(
     <style>
     .app-header {
         display: flex;
+        justify-content: flex-start;
         align-items: center;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0;
         background: white;
     }
 
     .logo {
-        height: 32px;
+        height: 45px;
         width: auto;
         object-fit: contain;
     }
     </style>
 
     <div class="app-header">
-        <img src="https://cdn.prod.website-files.com/68c6698e3517c4af35b889cf/68e2ae5bad4b483249840e02_Karix-%201200x630.png" class="logo">
+        <img 
+            src="https://cdn.prod.website-files.com/68c6698e3517c4af35b889cf/68e2ae5bad4b483249840e02_Karix-%201200x630.png" 
+            class="logo"
+        >
     </div>
     """,
     unsafe_allow_html=True
 )
-
 # ──────────────────────────────────────────────
 # PAGE CONFIG
 # ──────────────────────────────────────────────
