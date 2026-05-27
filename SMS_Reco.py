@@ -698,9 +698,11 @@ with tabs[0]:
         )
     with col2:
         st.markdown("<br>", unsafe_allow_html=True)
+        if "sample_excel" not in st.session_state:
+            st.session_state["sample_excel"] = generate_sample_excel()
         st.download_button(
             "⬇️ Download Sample Format",
-            data=generate_sample_excel(),
+            data=st.session_state["sample_excel"],
             file_name="SMS_Finance_Sample.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
