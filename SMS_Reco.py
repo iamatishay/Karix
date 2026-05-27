@@ -855,7 +855,7 @@ with tabs[4]:
             styled = (
                 ex_issues[col_order]
                 .reset_index(drop=True)
-                .style.applymap(highlight_diff, subset=["INR_Diff"])
+                .style.map(highlight_diff, subset=["INR_Diff"])
                 .format(active_fmt)
             )
             st.dataframe(styled, use_container_width=True, height=480)
