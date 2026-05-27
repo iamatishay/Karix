@@ -188,6 +188,27 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+st.markdown("""
+<style>
+.app-header{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+    padding:10px 0;
+}
+
+.app-title{
+    font-size:32px;
+    font-weight:700;
+}
+
+.app-sub{
+    font-size:15px;
+    color:#666;
+}
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown(
     """
