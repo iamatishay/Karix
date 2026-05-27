@@ -18,11 +18,35 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+st.markdown(
+    """
+    <style>
+    .app-header {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background: white;
+    }
+
+    .logo {
+        height: 32px;
+        width: auto;
+        object-fit: contain;
+    }
+    </style>
+
+    <div class="app-header">
+        <img src="https://cdn.prod.website-files.com/68c6698e3517c4af35b889cf/68e2ae5bad4b483249840e02_Karix-%201200x630.png" class="logo">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # ──────────────────────────────────────────────
 # PAGE CONFIG
 # ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="SMS Finance Analyzer",
+    page_title="SMS Finance Reconciliation",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -35,37 +59,131 @@ st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
-    html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-    h1, h2, h3 { font-family: 'Syne', sans-serif; }
-    .main { background: #0d1117; color: #e6edf3; }
+
+    :root {
+        --karix-blue: #132c7a;
+        --karix-blue-light: #1d46b3;
+        --karix-pink: #c63d8f;
+        --bg-light: #f5f7fb;
+        --card-bg: #ffffff;
+        --border: #d6dbe7;
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+    }
+
+    html, body, [class*="css"] {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--bg-light);
+        color: var(--text-dark);
+    }
+
+    h1, h2, h3 {
+        font-family: 'Syne', sans-serif;
+    }
+
+    .main {
+        background: var(--bg-light);
+        color: var(--text-dark);
+    }
+
+    /* Header */
     .app-header {
-        background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-        border-bottom: 2px solid #21262d;
-        padding: 1.5rem 2rem;
+        background: linear-gradient(
+            135deg,
+            var(--karix-blue) 0%,
+            var(--karix-blue-light) 100%
+        );
+        padding: 1.6rem 2rem;
+        border-radius: 0 0 18px 18px;
         margin-bottom: 1.5rem;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.08);
     }
+
     .app-title {
-        font-family:'Syne',sans-serif; font-size:2rem; font-weight:800;
-        background:linear-gradient(90deg,#58a6ff,#79c0ff);
-        -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        font-family: 'Syne', sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        color: white;
+        letter-spacing: 0.5px;
     }
-    .app-sub { color:#8b949e; font-size:.9rem; margin-top:.2rem; }
-    .stTabs [data-baseweb="tab-list"] { gap:4px; border-bottom:1px solid #21262d; }
+
+    .app-sub {
+        color: #dbe5ff;
+        font-size: 0.92rem;
+        margin-top: 0.2rem;
+    }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 6px;
+        border-bottom: 2px solid var(--border);
+    }
+
     .stTabs [data-baseweb="tab"] {
-        background:#161b22; border:1px solid #30363d; border-radius:6px 6px 0 0;
-        color:#8b949e; font-size:.85rem; padding:.45rem 1.1rem;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 10px 10px 0 0;
+        color: var(--text-light);
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 0.55rem 1.2rem;
     }
-    .stTabs [aria-selected="true"] { background:#1f6feb22; border-color:#1f6feb; color:#58a6ff; }
-    .stDataFrame { border:1px solid #30363d; border-radius:8px; }
-    .stDownloadButton button {
-        background:#1f6feb; color:white; border:none;
-        border-radius:6px; font-weight:600; padding:.5rem 1.4rem;
+
+    .stTabs [aria-selected="true"] {
+        background: #eef3ff;
+        border-color: var(--karix-blue);
+        color: var(--karix-blue);
+        font-weight: 600;
     }
-    .stDownloadButton button:hover { background:#388bfd; }
+
+    /* Dataframe */
+    .stDataFrame {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Buttons */
+    .stDownloadButton button,
+    .stButton button {
+        background: var(--karix-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.55rem 1.4rem;
+        transition: 0.2s ease;
+    }
+
+    .stDownloadButton button:hover,
+    .stButton button:hover {
+        background: var(--karix-pink);
+        transform: translateY(-1px);
+    }
+
+    /* File uploader */
     div[data-testid="stFileUploader"] {
-        background:#161b22; border:2px dashed #30363d;
-        border-radius:10px; padding:1rem;
+        background: white;
+        border: 2px dashed var(--karix-blue-light);
+        border-radius: 14px;
+        padding: 1.2rem;
     }
+
+    /* Cards / metric containers */
+    div[data-testid="metric-container"] {
+        background: white;
+        border: 1px solid var(--border);
+        padding: 1rem;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: white;
+        border-right: 1px solid var(--border);
+    }
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -74,7 +192,7 @@ st.markdown(
 st.markdown(
     """
     <div class="app-header">
-      <div class="app-title">📊 SMS Finance Analyzer</div>
+      <div class="app-title">📊 SMS Finance Reconciliation</div>
       <div class="app-sub">Reconcile Finance vs Strategy — Volume · Revenue · Rates · FX Conversion</div>
     </div>
     """,
