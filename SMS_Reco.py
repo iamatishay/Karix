@@ -827,7 +827,7 @@ def require_results():
 
 # ── TAB 0: Upload ──
 with tabs[0]:
-    st.markdown("### Upload your SMS Finance Excel file")
+    st.markdown("### Upload your Excel file")
     st.markdown(
         "The file must contain **4 sheets**: "
         "`Finance SMS`, `SMS_Data`, `SMS_NLD`, `SMS_ILD`."
